@@ -4,52 +4,62 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    /* Basic styling for tabs */
     .tab {
-      display: none;
-    }
-
-    nav {
-      border: 1px solid red;
-    }
-
-    nav button.active {
-      background: black;
-      color: white;
+        display: inline-block;
+        padding: 10px 20px;
+        margin-right: 5px;
+        cursor: pointer;
+        background-color: #f1f1f1;
+        border: 1px solid #ccc;
+        border-bottom: none;
     }
 
     .tab.active {
-      display: block
+        background-color: white;
+        border-top: 2px solid #007BFF;
+        font-weight: bold;
     }
-  </style>
+
+    .tab-content {
+        display: none;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+</style>
   <title>Tabs</title>
 </head>
 <body>
-  <nav>
-    <button data-tab='tab1'>one</button>
-    <button data-tab='tab2'>two</button>
-    <button data-tab='tab3'>three</button>
-  </nav>
+  <div class="tabs-container">
+    <nav class="tabs">
+        <div class="tab" data-tab="tab1">Tab 1</div>
+        <div class="tab" data-tab="tab2">Tab 2</div>
+        <div class="tab" data-tab="tab3">Tab 3</div>
+    </nav>
 
-  <div id='tab1' class='tab'>
-    <h2>d1</h2>
-    Has american bully aggressive reputation like pitbull, rottweiler, gsd etc
-  </div>
-  <div id='tab2' class='tab'>
-    <h2>d2</h2>
-    Here we are, don't turn away now (don't turn away)
-    We are the warriors that built this town
-    Here we are, don't turn away now (don't turn away)
-  </div>
-  <div id='tab3' class='tab'>
-    <h2>d3</h2>
-    Explain types of pressure sensors in detail Using bullet pointsHas american bully aggressive reputation like pitbull, rottweiler, gsd etcwn
-    Here we are, don't turn away now (don't turn away)
-  </div>
+    <div class="tab-content" id="tab1">
+        <h2>Tab 1 Content</h2>
+        <p>This is the content for Tab 1.</p>
+    </div>
+    <div class="tab-content" id="tab2">
+        <h2>Tab 2 Content</h2>
+        <p>This is the content for Tab 2.</p>
+    </div>
+    <div class="tab-content" id="tab3">
+        <h2>Tab 3 Content</h2>
+        <p>This is the content for Tab 3.</p>
+    </div>
+</div>
 
   <script type="text/javascript">
-    const navEle = document.querySelector('nav');
-    const tabs = document.querySelectorAll('.tab');
-    const tabLinks = document.querySelectorAll('nav button');
+    const navEle = document.querySelector('.tabs');
+    const tabs = document.querySelectorAll('.tab-content');
+    const tabLinks = document.querySelectorAll('nav .tab');
     navEle.addEventListener('click', function(e) {
       if (e.target === navEle) return;
       // or do it below way 

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Image Carousel</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .carousel {
+            position: relative;
+            width: 80%;
+            max-width: 600px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .carousel-images {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+        }
+
+        .carousel-image {
+            min-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .carousel-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .carousel-button {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+        }
+
+        .carousel-pagination {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .pagination-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #ddd;
+            border-radius: 50%;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .pagination-dot.active {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="carousel">
+    <div class="carousel-images" id="carouselImages">
+        <img src="https://via.placeholder.com/600x400?text=Image+1" class="carousel-image" alt="Image 1">
+        <img src="https://via.placeholder.com/600x400?text=Image+2" class="carousel-image" alt="Image 2">
+        <img src="https://via.placeholder.com/600x400?text=Image+3" class="carousel-image" alt="Image 3">
+    </div>
+    <div class="carousel-controls">
+        <button class="carousel-button" id="prevButton">❮</button>
+        <button class="carousel-button" id="nextButton">❯</button>
+    </div>
+    <div class="carousel-pagination" id="carouselPagination"></div>
+</div>
+
+<script>
+    // JavaScript for enhanced carousel
+    document.addEventListener('DOMContentLoaded', () => {
+        const carouselImages = document.getElementById('carouselImages');
+        const images = carouselImages.getElementsByClassName('carousel-image');
+        const totalImages = images.length;
+        const paginationContainer = document.getElementById('carouselPagination');
+        let currentIndex = 0;
+        let autoSlideInterval;
+
+        function updateCarousel() {
+            const offset = -currentIndex * 100;
+            carouselImages.style.transform = `translateX(${offset}%)`;
+
+            // Update pagination
+            const dots = paginationContainer.getElementsByClassName('pagination-dot');
+            Array.from(dots).forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        function createPagination() {
+            for (let i = 0; i < totalImages; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'pagination-dot';
+                dot.addEventListener('click', () => {
+                    currentIndex = i;
+                    updateCarousel();
+                });
+                paginationContainer.appendChild(dot);
+            }
+            updateCarousel();
+        }
+
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % totalImages;
+                updateCarousel();
+            }, 3000);
+        }
+
+        function stopAutoSlide() {
+            clearInterval(autoSlideInterval);
+        }
+
+        document.getElementById('nextButton').addEventListener('click', () => {
+            stopAutoSlide();
+            currentIndex = (currentIndex + 1) % totalImages;
+            updateCarousel();
+            startAutoSlide();
+        });
+
+        document.getElementById('prevButton').addEventListener('click', () => {
+            stopAutoSlide();
+            currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+            updateCarousel();
+            startAutoSlide();
+        });
+
+        carouselImages.addEventListener('mouseover', stopAutoSlide);
+        carouselImages.addEventListener('mouseout', startAutoSlide);
+
+        // Initialize carousel
+        createPagination();
+        startAutoSlide();
+    });
+</script>
+
+</body>
+</html>
