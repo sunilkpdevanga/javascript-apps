@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .tab {
+      display: none;
+    }
+
+    nav {
+      border: 1px solid red;
+    }
+
+    nav button.active {
+      background: black;
+      color: white;
+    }
+
+    .tab.active {
+      display: block
+    }
+  </style>
+  <title>Tabs</title>
+</head>
+<body>
+  <nav>
+    <button data-tab='tab1'>one</button>
+    <button data-tab='tab2'>two</button>
+    <button data-tab='tab3'>three</button>
+  </nav>
+
+  <div id='tab1' class='tab'>
+    <h2>d1</h2>
+    Has american bully aggressive reputation like pitbull, rottweiler, gsd etc
+  </div>
+  <div id='tab2' class='tab'>
+    <h2>d2</h2>
+    Here we are, don't turn away now (don't turn away)
+    We are the warriors that built this town
+    Here we are, don't turn away now (don't turn away)
+  </div>
+  <div id='tab3' class='tab'>
+    <h2>d3</h2>
+    Explain types of pressure sensors in detail Using bullet pointsHas american bully aggressive reputation like pitbull, rottweiler, gsd etcwn
+    Here we are, don't turn away now (don't turn away)
+  </div>
+
+  <script type="text/javascript">
+    const navEle = document.querySelector('nav');
+    const tabs = document.querySelectorAll('.tab');
+    const tabLinks = document.querySelectorAll('nav button');
+    navEle.addEventListener('click', function(e) {
+      if (e.target === navEle) return;
+      // or do it below way 
+      /*
+      <div class="tabs">
+        <div class="tab" data-tab="tab1">Tab 1</div>
+    </div>
+      */
+      //if (event.target.classList.contains('tab')) { code goes inside}
+      const tabContent = document.getElementById(e.target.dataset.tab);
+      for (let tab of tabs) {
+        tab.classList.remove('active');
+      }
+      tabLinks.forEach(link => link.classList.remove('active'))
+      e.target.classList.add('active');
+      tabContent.classList.add('active');
+    })
+    document.addEventListener('DOMContentLoaded', () => {
+      tabs[0].classList.add('active');
+      tabLinks[0].classList.add('active');
+    })
+  </script>
+</body>
+</html>
