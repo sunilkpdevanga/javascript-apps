@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Breadcrumbs</title>
+    <style>
+        .breadcrumbs {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 0;
+            margin: 0;
+        }
+
+        .breadcrumbs li {
+            margin-right: 5px;
+        }
+
+        .breadcrumbs li::after {
+            content: ">";
+            margin-left: 5px;
+        }
+
+        .breadcrumbs li:last-child::after {
+            content: "";
+        }
+    </style>
+</head>
+<body>
+<!-- Simulated navigation links for demonstration -->
+<nav>
+    <a href="#" data-path="Home">Home</a> >
+    <a href="#" data-path="Home > Products">Products</a> >
+    <a href="#" data-path="Home > Products > Electronics">Electronics</a> >
+    <a href="#" data-path="Home > Products > Electronics > Smartphones">Smartphones</a>
+</nav>
+
+
+<ul class="breadcrumbs" id="breadcrumbs"></ul>
+
+<script>
+    // JavaScript for dynamic breadcrumbs
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const breadcrumbs = document.getElementById('breadcrumbs');
+        const links = document.querySelectorAll('nav a');
+
+        function updateBreadcrumbs(path) {
+            const parts = path.split(' > ');
+            breadcrumbs.innerHTML = '';  // Clear current breadcrumbs
+
+            parts.forEach((part, index) => {
+                const li = document.createElement('li');
+                if (index < parts.length - 1) {
+                    const a = document.createElement('a');
+                    a.href = "#";  // For simplicity, using "#" as href
+                    a.textContent = part;
+                    li.appendChild(a);
+                } else {
+                    li.textContent = part;
+                }
+                breadcrumbs.appendChild(li);
+            });
+        }
+
+        links.forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();  // Prevent actual navigation
+                const path = link.getAttribute('data-path');
+                updateBreadcrumbs(path);
+            });
+        });
+
+        // Set initial breadcrumbs (e.g., based on current page)
+        updateBreadcrumbs('Home');
+    });
+</script>
+
+</body>
+</html>

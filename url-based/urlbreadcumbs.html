@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Breadcrumbs</title>
+    <style>
+        .breadcrumbs {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 0;
+            margin: 0;
+        }
+
+        .breadcrumbs li {
+            margin-right: 5px;
+        }
+
+        .breadcrumbs li::after {
+            content: ">";
+            margin-left: 5px;
+        }
+
+        .breadcrumbs li:last-child::after {
+            content: "";
+        }
+    </style>
+</head>
+<body>
+
+<ul class="breadcrumbs" id="breadcrumbs"></ul>
+
+<script>
+    // JavaScript for URL-based dynamic breadcrumbs
+    document.addEventListener('DOMContentLoaded', function() {
+        const breadcrumbs = document.getElementById('breadcrumbs');
+        const pathArray = window.location.pathname.split('/').filter(part => part);
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        // Function to build the breadcrumbs based on URL
+        function buildBreadcrumbs() {
+            let path = '';
+            pathArray.forEach((segment, index) => {
+                path += `/${segment}`;
+                const li = document.createElement('li');
+                if (index < pathArray.length - 1) {
+                    const a = document.createElement('a');
+                    a.href = path;
+                    a.textContent = capitalizeFirstLetter(segment.replace(/-/g, ' '));
+                    li.appendChild(a);
+                } else {
+                    li.textContent = capitalizeFirstLetter(segment.replace(/-/g, ' '));
+                }
+                breadcrumbs.appendChild(li);
+            });
+
+            // Add "Home" as the first breadcrumb
+            const homeLi = document.createElement('li');
+            const homeLink = document.createElement('a');
+            homeLink.href = '/';
+            homeLink.textContent = 'Home';
+            homeLi.appendChild(homeLink);
+            breadcrumbs.insertBefore(homeLi, breadcrumbs.firstChild);
+        }
+
+        buildBreadcrumbs();
+    });
+</script>
+
+</body>
+</html>
